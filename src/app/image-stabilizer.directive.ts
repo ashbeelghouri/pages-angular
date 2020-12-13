@@ -27,10 +27,9 @@ export class ImageStabilizerDirective implements AfterViewChecked {
     for (let key in childnodes) {
       if (childnodes[key].tagName == "IMG") {
         console.log(key);
-        marginTopShouldbe = ((parseInt(self.maxHeight) - parseInt(imageHeight)) / 2 );
+        marginTopShouldbe = ((parseFloat(self.maxHeight) - parseFloat(imageHeight)) / 2 );
         childnodes[key].style.marginTop = marginTopShouldbe + "px";
         childnodes[key].style.marginBottom = marginTopShouldbe + "px";
-        console.log("marginTop should be", marginTopShouldbe, (parseInt(self.maxHeight)), (parseInt(imageHeight)));
       } else {
         console.log("Image tag not found");
       }
