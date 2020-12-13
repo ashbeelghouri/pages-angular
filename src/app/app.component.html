@@ -3,10 +3,10 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
       
-      
-      <div style="padding: 20px;">
-        <h4 style="text-align: center;">{{ images[currentpage].title }}</h4>
-        <img style="cursor: pointer;" (click)="slideshowToggle()" class="img img-fluid" [src]="images[currentpage].url" />
+      <!-- class="main-title" -->
+      <div style="padding: 20px; height: 400px; overflow: hidden;">
+        <h4  style="text-align: center;">{{ images[currentpage].title | titlecase }}</h4>
+        <img style="cursor: pointer;" (click)="slideshowToggle()" class="img img-fluid sliderImage" [src]="images[currentpage].url" />
       </div>
 
       <!-- <div [ngSwitch]="currentpage">
@@ -14,18 +14,35 @@
       </div> -->
 
 
-      <p style="text-align: center;">Click on the image to start or stop the slideshow</p>
+      <div class="row" style="text-align: center; padding: 10px;">
+        <div class="col-md-3"> 
+        </div>
+        <div class="col-md-6">
+          <div class="input-group flex-nowrap">
+            <button (click)="slideshowToggle(1)" class="btn btn-outline-success" *ngIf="!play">Start</button>
+            <button (click)="slideshowToggle(0)" class="btn btn-outline-danger" *ngIf="play">Stop</button>
+            <span class="input-group-text">Time</span>
+            <input id="timer" style="text-align: center;" class="form-control" [value]="slideTime" (input)="setSliderTime($event.target.value)" />
+          </div>
+        </div>
+        <div class="col-md-2">
+          
+        </div>
+        
+        
+      </div>
+      
       <nav style="padding: 20px;">
         <ul class="pagination">
-          <li class="page-item" [ngClass]="{ disabled: currentpage === 0 } ">
+          <li class="page-item" [appClass]="{ disabled: currentpage === 0 } ">
             <a (click)="currentpage = currentpage - 1" class="page-link">Previous</a>
           </li>
           <ng-container *ngFor="let image of images; let i = index;">
-            <li *ngIf="checkWindowIndex(i)" class="page-item" [ngClass]="{ active: i === currentpage }" >
+            <li *ngIf="checkWindowIndex(i)" class="page-item" [appClass]="{ active: i === currentpage }" >
               <a (click)="currentpage = i" class="page-link" href="#">{{ i + 1 }}</a>
             </li>
           </ng-container>
-          <li class="page-item" [ngClass]="{ disabled: currentpage === images.length - 1 } ">
+          <li class="page-item" [appClass]="{ disabled: currentpage === images.length - 1 } ">
             <a (click)="currentpage = currentpage + 1" class="page-link">Next</a>
           </li>
         </ul>

@@ -7,7 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   currentpage = 0;
-  mySlideshow:any;
+  mySlideshow: any;
+  slideTime = 2000;
   play = false;
 
   images = [
@@ -97,50 +98,62 @@ export class AppComponent {
     }
   ];
 
-  constructor () {
-    this.slideshow ();
+  constructor() {
+    this.slideshow();
   }
 
-  slideshowToggle(){
-    this.play = !this.play;
-    this.slideshow ();
+  stopSlider() {
+    clearInterval(this.mySlideshow);
   }
 
-  slideshow () {
+
+  slideshowToggle(val: any = undefined) {
+    if (!val) {
+      this.play = !this.play;
+    } else {
+      this.play = val;
+    }
+    this.slideshow();
+  }
+
+  slideshow() {
     console.log("play", this.play);
-    if(this.play){
-      this.mySlideshow = this.playSlideShow();
-    }else{
-      clearInterval(this.mySlideshow);
+    this.stopSlider();
+    if (this.play) {
+      this.playSlideShow();
     }
   }
 
-  playSlideShow () {
+  playSlideShow() {
     let self = this;
-    return setInterval(function(){
-      if(self.images && self.currentpage < self.images.length - 1){
+    this.mySlideshow = setInterval(function () {
+      if (self.images && self.currentpage < self.images.length - 1) {
         self.currentpage += 1;
-      }else{
+      } else {
         self.currentpage = 0;
       }
-    }, 2000);
+    }, self.slideTime);
   }
 
 
-  checkWindowIndex(i:number){
+  checkWindowIndex(i: number) {
     var showPages = 4;
-    if(this.currentpage == 0){
+    if (this.currentpage == 0) {
       showPages = 6;
     }
-    if(this.currentpage == 1){
+    if (this.currentpage == 1) {
       showPages = 5;
     }
 
-    if(this.currentpage == 2){
+    if (this.currentpage == 2) {
       showPages = 4;
     }
-
     return Math.abs(this.currentpage - i) < showPages;
+  }
+
+  setSliderTime(time: number) {
+    this.slideTime = time;
+    this.slideshow();
   }
 
 
